@@ -66,7 +66,7 @@ public class LuceneBasicFlowExampleTestCase {
 	public void findAll() throws Exception {
 		IndexSearcher searcher = new IndexSearcher(DirectoryReader.open(directory));
 		
-		Query query = new QueryParser("title", new StandardAnalyzer()).parse("title:Solr");
+		Query query = new QueryParser("title", new StandardAnalyzer()).parse("Solr");
 		TopDocs matches = searcher.search(query, 10);
 		
 		assertEquals(3, matches.totalHits);
@@ -83,6 +83,29 @@ public class LuceneBasicFlowExampleTestCase {
 		
 		assertEquals(expected, result);
 	}
+	
+	/**
+	 * Search all books of a given author. 
+	 * 
+	 * @throws Exception never, otherwise the test fails.
+	 */
+	@Test
+	public void findByAuthorSurname() throws Exception {
+		IndexSearcher searcher = new IndexSearcher(DirectoryReader.open(directory));
+		
+		Query query = new QueryParser("author", new StandardAnalyzer()).parse("Gazzarini");
+		TopDocs matches = searcher.search(query, 10);
+		
+		assertEquals(1, matches.totalHits);
+				
+		final String id = Arrays.stream(matches.scoreDocs)
+			.map(scoreDoc -> luceneDoc(scoreDoc.doc, searcher))
+			.map(doc -> doc.get("id"))
+			.findFirst()
+			.get();
+		
+		assertEquals("1", id);
+	}	
 	
 	/**
 	 * Cleans up the index and releases resources. 
