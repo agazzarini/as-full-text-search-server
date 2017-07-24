@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<schema name="Apache Solr - Full-Text Search Server Training Course" version="1.5">
+	<fieldType name="string" class="solr.StrField" sortMissingLast="true" />
+	
+	<field name="id" type="string" indexed="true" stored="true" required="true" />
+	<field name="isbn" type="string" indexed="true" stored="true" required="true" />
+	<field name="title" type="string" indexed="true" stored="true" required="true" />
+	<field name="author" type="string" indexed="true" stored="true" required="true" />
+	
+	<uniqueKey>id</uniqueKey>
+</schema>
