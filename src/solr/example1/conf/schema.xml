@@ -3,7 +3,7 @@
 	<fieldType name="string" class="solr.StrField" sortMissingLast="true" />
 	
 	<field name="id" type="string" indexed="true" stored="true" required="true" />
-	<field name="isbn" type="string" indexed="true" stored="true" required="true" />
+	<field name="isbn" type="string" indexed="true" stored="true" required="false" />
 	<field name="title" type="string" indexed="true" stored="true" required="true" />
 	<field name="author" type="string" indexed="true" stored="true" required="true" />
 	

@@ -1,4 +1,4 @@
-package com.nobleprog.solr.p1;
+package com.nobleprog.solr.lucene;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,8 +23,6 @@ import org.apache.lucene.store.FSDirectory;
 
 /**
  * Basic Lucene example.
- * 
- * @author agazzarini
  */
 public class LuceneBasicFlowExample {
 	/**

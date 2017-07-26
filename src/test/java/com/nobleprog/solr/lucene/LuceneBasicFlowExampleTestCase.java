@@ -1,4 +1,4 @@
-package com.nobleprog.solr.p1;
+package com.nobleprog.solr.lucene;
 
 import static org.junit.Assert.assertEquals;
 
