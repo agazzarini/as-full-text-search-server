@@ -8,9 +8,11 @@
     "genre_s" : "fantasy",
     "inStock" : true,
     "price" : 12.50,
-    "pages" : 384
-  }
-,
+    "pages" : 384,
+    "notes_1": "Development for The Lightning Thief began when author Rick Riordan made up stories for his son Haley",
+    "notes_2": "While he gave his manuscript to his agent and editor to review, Riordan took his book to a group of middle schoolers to critique",
+    "notes_3": "Riordan first sent out the manuscript for The Lightning Thief under the pseudonym Ransom Reese as he didn't want to rely on anyone in the publisher industry"
+  },
   {
     "id" : "978-1423103349",
     "cat" : ["book","kindle"],
@@ -20,7 +22,8 @@
     "genre_s" : "fantasy",
     "inStock" : true,
     "price" : 6.49,
-    "pages" : 304
+    "pages" : 304,
+    "notes_1": "Percy Jackson has been having nightmares about Grover, the first involving him running from an unseen force and taking refuge in a wedding dress shop"  
   }
 ,
   {
@@ -31,7 +34,11 @@
     "genre_s" : "fantasy",
     "inStock" : true,
     "price" : 3.07,
-    "pages" : 64
+    "pages" : 64,
+    "notes_1": "As Albert Knag continues to meddle with Sophie's life, Alberto helps her fight back by teaching her everything he knows about philosophy",
+    "notes_2": "Sophie, without the knowledge of her mother, becomes the student of an old philosopher, Alberto Knox",
+    "notes_3": "In 1999 it was made into a board game by Robert Hyde and Ken Howard, and published by Sophisticated Games Ltd.",
+    "notes_4": "The 1999 movie was also presented as an eight-part TV series in Australia and Iceland, again scripted by Petter Skavlan."
   }
 ,
   {
@@ -42,7 +49,9 @@
     "genre_s" : "IT",
     "inStock" : false,
     "price" : 30.50,
-    "pages" : 475
+    "pages" : 475,
+    "notes_1": "When Lucene first appeared, this superfast search engine was nothing short of amazing.",
+    "notes_2": "This totally revised book shows you how to index your documents"
   },
   {
     "id" : "978-1784399641",
@@ -52,6 +61,8 @@
     "genre_s" : "IT",
     "inStock" : true,
     "price" : 30.50,
-    "pages" : 185
+    "pages" : 185,
+    "notes_1": "Apache Solr Essentials is a fast-paced guide to help you quickly learn the process of creating a scalable, efficient, and powerful search application",
+    "notes_3": "By the end of this book, you will be able to create excellent search applications with the help of Solr."
   }  
 ]

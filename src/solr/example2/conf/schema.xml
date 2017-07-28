@@ -11,14 +11,16 @@
         <filter class="solr.PorterStemFilterFactory"/>
       </analyzer>
     </fieldType>	
+
+	<!-- Names -->
+    <fieldType name="name" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+      </analyzer>
+    </fieldType>	
 	
-	<fieldType name="boolean" class="solr.BoolField" sortMissingLast="true"/>
-	
-	<fieldType name="int" class="solr.TrieIntField" docValues="true" precisionStep="0" positionIncrementGap="0"/>
-    <fieldType name="float" class="solr.TrieFloatField" docValues="true" precisionStep="0" positionIncrementGap="0"/>
-    <fieldType name="long" class="solr.TrieLongField" docValues="true" precisionStep="0" positionIncrementGap="0"/>
-    <fieldType name="double" class="solr.TrieDoubleField" docValues="true" precisionStep="0" positionIncrementGap="0"/>
-	
+	<fieldType name="boolean" class="solr.BoolField" sortMissingLast="true"/>	
 	<fieldType name="tint" class="solr.TrieIntField" docValues="true" precisionStep="8" positionIncrementGap="0"/>
     <fieldType name="tfloat" class="solr.TrieFloatField" docValues="true" precisionStep="8" positionIncrementGap="0"/>
     <fieldType name="tlong" class="solr.TrieLongField" docValues="true" precisionStep="8" positionIncrementGap="0"/>
@@ -27,8 +29,9 @@
 	<!--  FIELDS -->
 	
 	<field name="id" type="string" indexed="true" stored="true" required="true" />
-	<field name="title" type="string" indexed="true" stored="true" required="true" />
-	<field name="author" type="string" indexed="true" stored="true" required="true" />
+
+	<field name="title" type="text_general" indexed="true" stored="true" required="true" />
+	<field name="author" type="name" indexed="true" stored="true" required="true" />
 	
 	<uniqueKey>id</uniqueKey>
 </schema>

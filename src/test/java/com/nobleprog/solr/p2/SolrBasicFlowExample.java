@@ -24,6 +24,8 @@ public class SolrBasicFlowExample extends BaseIntegrationTest {
 	 */
 	@Test
 	public void findAll() throws Exception {
+		System.err.println(System.getProperty("solr.core.config"));
+		
 		// This is the list of documents we will send to Solr
 		List<SolrInputDocument> books = new ArrayList<SolrInputDocument>();
 		
