@@ -7,17 +7,17 @@ import org.apache.solr.update.AddUpdateCommand;
 import org.apache.solr.update.processor.UpdateRequestProcessor;
 
 /**
- * A simple {@link UpdateRequestProcessor} that replaces all fields with the corresponding uppercase version.  
+ * A simple {@link UpdateRequestProcessor} that removes fields from the incoming document.  
  * 
- * NOTE: we are within Solr here, this is not a client!
+ * NOTE: we are *in* Solr here, this is not a client!
  */
-public class ToUppercaseUpdateRequestProcessor extends UpdateRequestProcessor {
+public class RemoveFieldUpdateRequestProcessor extends UpdateRequestProcessor {
 
 	/**
 	 * When is built, a processor wraps the next processor in the chain. 
 	 * If the next processor is null, then that means we are in the last processor. 
 	 */
-	public ToUppercaseUpdateRequestProcessor(UpdateRequestProcessor next) {
+	public RemoveFieldUpdateRequestProcessor(UpdateRequestProcessor next) {
 		super(next);
 	}
 	
@@ -34,14 +34,10 @@ public class ToUppercaseUpdateRequestProcessor extends UpdateRequestProcessor {
 		// Get the document that is going to be indexed
 		SolrInputDocument document = command.getSolrInputDocument();
 		
-		// Get the title
-		String title = (String) document.getFieldValue("title");
+		// Removes the title field.
+		// In a real system, the list of fields to be removed should come from the configuration.
+		document.removeField("title");
 		
-		// and replace it with the uppercase version
-		document.setField("title", title.toUpperCase());
-		
-		// do the same with other fields...
-
 		// This is important: if you omit this call the document will be ignored by Solr
 		super.processAdd(command);
 	}

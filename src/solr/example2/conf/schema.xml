@@ -4,10 +4,17 @@
 
 	<!-- Text general type -->
     <fieldType name="text_general" class="solr.TextField" positionIncrementGap="100">
-      <analyzer type="index">
+      <!-- We have the same analyzer at index and query time -->
+      <analyzer>
+      	<!-- Diacritics normalization -->
+      	<charFilter class="solr.MappingCharFilterFactory" mapping="mapping-FoldToASCII.txt"/>
+      	<!-- Split by whitespaces and delimiters -->
         <tokenizer class="solr.StandardTokenizerFactory"/>
+        <!-- Removes all tokens that are stopwords -->
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt"/>
+        <!-- Replace each token with the lowercase version -->
         <filter class="solr.LowerCaseFilterFactory"/>
+        <!-- Apply a (Porter) stemming to each token -->
         <filter class="solr.PorterStemFilterFactory"/>
       </analyzer>
     </fieldType>	
@@ -15,6 +22,7 @@
 	<!-- Names -->
     <fieldType name="name" class="solr.TextField" positionIncrementGap="100">
       <analyzer type="index">
+      	<charFilter class="solr.MappingCharFilterFactory" mapping="mapping-FoldToASCII.txt"/>
         <tokenizer class="solr.StandardTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
       </analyzer>
@@ -32,6 +40,13 @@
 
 	<field name="title" type="text_general" indexed="true" stored="true" required="true" />
 	<field name="author" type="name" indexed="true" stored="true" required="true" />
+	<field name="cat" type="string" indexed="true" stored="true" required="true" multiValued="true"/>
+	<field name="series_t" type="text_general" indexed="true" stored="true" required="false" />
+	<field name="genre_s" type="string" indexed="true" stored="true" required="true" />
+	<field name="inStock" type="boolean" indexed="true" stored="true" required="true" />
+	<field name="pages" type="tint" indexed="true" stored="true" required="true" />
+	<field name="price" type="tdouble" indexed="true" stored="true" required="true" />
+	<dynamicField name="notes_*" type="text_general" indexed="true" stored="true" required="false" />
 	
 	<uniqueKey>id</uniqueKey>
 </schema>

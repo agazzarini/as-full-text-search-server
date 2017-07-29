@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <config>
 	<luceneMatchVersion>6.6.0</luceneMatchVersion>
+	<!-- This is the directory where Solr will create and manage the index of this core. -->
 	<dataDir>${solr.data.dir:/tmp}/${solr.core.name}/data</dataDir>
 	<directoryFactory name="DirectoryFactory" class="${solr.directoryFactory:solr.NRTCachingDirectoryFactory}" />
 	<codecFactory class="solr.SchemaCodecFactory" />
@@ -20,21 +21,82 @@
 		<useColdSearcher>false</useColdSearcher>
 		<maxWarmingSearchers>2</maxWarmingSearchers>
 	</query>
-	<requestDispatcher handleSelect="false">
+	<requestDispatcher handleSelect="true">
 		<requestParsers enableRemoteStreaming="true" multipartUploadLimitInKB="2048000" formdataUploadLimitInKB="2048" />
 		<httpCaching never304="true" />
 	</requestDispatcher>
-	<requestHandler name="/search" class="solr.SearchHandler" default="true">
+
+	<!-- Search handlers: each requestHandler is a search endpoint with a dedicated configuration -->
+
+	<!-- Search endpoint without any constraint (i.e. search among the whole dataset -->
+	<requestHandler name="/free_search" class="solr.SearchHandler">
+		<!-- 
+			Invariants parameter cannot be changed.
+			In this example the query parser (i.e. defType parameter) cannot be changed by the client. 
+		-->
+		<lst name="invariants">
+			<str name="defType">edismax</str>		
+		</lst>
+		<!-- 
+			Defauls parameters, as the name suggests, will be applied unless the client 
+			explicitly sends them in the HTTP request.  
+		-->
 		<lst name="defaults">
-			<str name="sort">title asc</str>
 			<str name="echoParams">explicit</str>
-			<int name="rows">10</int>
+			
+			<!-- Entered terms will be searched in these fields, with these boosts -->
+			<str name="qf">title^1.2 author^0.5</str>
+			
+			<!-- 
+				Within the resultset of matching documents, give additional boost
+				to those documents having the search terms in proximity (in the title)
+			 -->
+			<str name="pf">title^2.2</str>
+			
+			<!-- Give an additional boost to those documents that have "lucene" in the title -->
+			<str name="bq">title:lucene</str>
+			
+			<int name="rows">20</int>
+			<str name="q">*:*</str>
+			<!-- Enables the facet component -->
+			<bool name="facet">true</bool>
+			<!-- Pivot facets -->
+			<str name="facet.pivot">cat,pages</str>
+			<!-- Regular facet fields -->
+			<str name="facet.field">cat</str>
+		</lst>
+	</requestHandler>
+	
+	
+	<!-- Search endpoint which adds the "paperback" filter -->
+	<requestHandler name="/paperback_search" class="solr.SearchHandler" default="true">
+		<lst name="defaults">
+			<str name="echoParams">explicit</str>
+			<str name="defType">edismax</str>
+			<str name="qf">title^1.2 author^0.5</str>
+			<str name="pf">title^2.2</str>
+			<str name="bq">title:lucene</str>
+			<int name="rows">20</int>
 			<str name="q">*:*</str>
 			<bool name="facet">false</bool>
 		</lst>
+		<!-- 
+			Parameters declared within the "appends" section will be 
+			automatically appended to any incoming request.
+		 -->		
+		<lst name="appends">
+			<str name="fq">cat:paperback</str>
+		</lst>
 	</requestHandler>
+
+	<!--  Analysis service endpoints -->
 	<requestHandler name="/analysis/field" startup="lazy" class="solr.FieldAnalysisRequestHandler" />
 	<requestHandler name="/analysis/document" class="solr.DocumentAnalysisRequestHandler" startup="lazy" />
+	
+	<!-- 
+		A simple search services that executes an arbitrary query.
+		This is often used in datacenters in order to see if the Solr instance is alive or not.  
+	 -->
 	<requestHandler name="/admin/ping" class="solr.PingRequestHandler">
 		<lst name="invariants">
 			<str name="q">*:*</str>

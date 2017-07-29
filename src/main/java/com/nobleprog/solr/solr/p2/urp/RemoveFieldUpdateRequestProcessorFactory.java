@@ -6,7 +6,10 @@ import org.apache.solr.response.SolrQueryResponse;
 import org.apache.solr.update.processor.UpdateRequestProcessor;
 import org.apache.solr.update.processor.UpdateRequestProcessorFactory;
 
-public class ToUppercaseUpdateRequestProcessorFactory extends UpdateRequestProcessorFactory {
+/**
+ * This is the factory of the URP, not the URP itself.
+ */
+public class RemoveFieldUpdateRequestProcessorFactory extends UpdateRequestProcessorFactory {
 
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -20,6 +23,6 @@ public class ToUppercaseUpdateRequestProcessorFactory extends UpdateRequestProce
 			final SolrQueryRequest req, 
 			final SolrQueryResponse res,
 			UpdateRequestProcessor next) {
-		return null;
+		return new RemoveFieldUpdateRequestProcessor(next);
 	}
 }
